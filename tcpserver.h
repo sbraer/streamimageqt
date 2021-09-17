@@ -9,10 +9,11 @@
 
 class NLTcpSocket;
 
-class TcpServer : public QObject
+class TcpServer final : public QObject
 {
     Q_OBJECT
 private:
+    Q_DISABLE_COPY_MOVE(TcpServer)
     QTcpServer *server;
     QList<NLTcpSocket*> sockets;
     bool _clientConnected;

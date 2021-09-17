@@ -12,7 +12,7 @@
 #include <math.h>
 #include <memory>
 
-class ImageCreator : public QObject
+class ImageCreator final : public QObject
 {
     Q_OBJECT
 
@@ -24,6 +24,8 @@ public:
     QByteArray createImage();
 
 private:
+    Q_DISABLE_COPY_MOVE(ImageCreator)
+
     template<typename T> std::pair<T, T> MsCoord(int val, int hlen);
     template<typename T> std::pair<T, T> HrCoord(int hval, int mval, int hlen);
 

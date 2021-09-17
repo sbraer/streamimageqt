@@ -3,10 +3,11 @@
 
 #include <QTcpSocket>
 
-class NLTcpSocket: public QObject
+class NLTcpSocket final : public QObject
 {
     Q_OBJECT
     private:
+        Q_DISABLE_COPY_MOVE(NLTcpSocket)
         QTcpSocket* tcpSocket;
     public:
         NLTcpSocket(QTcpSocket* socket);

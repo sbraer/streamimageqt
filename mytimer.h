@@ -7,10 +7,12 @@
 #include <QFile>
 #include "imagecreator.h"
 
-class MyTimer : public QThread
+class MyTimer final : public QThread
 {
     Q_OBJECT
 private:
+    Q_DISABLE_COPY_MOVE(MyTimer)
+
     bool _clientConnected;
     ImageCreator _imgCreator;
 
