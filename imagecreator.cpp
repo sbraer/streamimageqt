@@ -1,16 +1,12 @@
 #include "imagecreator.h"
-#include <iostream>
 
 ImageCreator::ImageCreator(QObject *parent) : QObject(parent)
-{
-}
-
-ImageCreator::~ImageCreator() {}
+{}
 
 QByteArray ImageCreator::createImage()
 {
     QImage image(MAXX, MAXY, QImage::Format_RGB32);
-    image.fill(QColor::fromRgb(0x00, 0xbb, 0x55)); // A green rectangle.
+    image.fill(QColor::fromRgb(0x00, 0xbb, 0x55));
     QPainter p;
     p.begin(&image);
     QPen pen(Qt::white, 3);
@@ -64,7 +60,7 @@ std::pair<T, T> ImageCreator::MsCoord(int val, int hlen)
         y = CY - static_cast<T>(float(hlen) * cos(PI * valx / 180));
     }
 
-    return std::make_pair(x,y);
+    return std::make_pair(x, y);
 }
 
 template<typename T>

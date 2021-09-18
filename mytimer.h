@@ -2,7 +2,6 @@
 #define MYTIMER_H
 
 #include <QThread>
-#include <iostream>
 #include <QTimer>
 #include <QFile>
 #include "imagecreator.h"
@@ -10,15 +9,14 @@
 class MyTimer final : public QThread
 {
     Q_OBJECT
-private:
     Q_DISABLE_COPY_MOVE(MyTimer)
 
+private:
     bool _clientConnected;
     ImageCreator _imgCreator;
 
 public:
     explicit MyTimer(QObject *parent = nullptr);
-    ~MyTimer() override;
     void run() override;
 
 public slots:

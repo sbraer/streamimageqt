@@ -7,7 +7,6 @@
 #include <QPainter>
 #include <QFont>
 #include <QDateTime>
-#include <tuple>
 #include <QBuffer>
 #include <math.h>
 #include <memory>
@@ -15,17 +14,15 @@
 class ImageCreator final : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ImageCreator)
 
     #define PI 3.14159265f
+
 public:
     explicit ImageCreator(QObject *parent = nullptr);
-    ~ImageCreator() override;
-
     QByteArray createImage();
 
 private:
-    Q_DISABLE_COPY_MOVE(ImageCreator)
-
     template<typename T> std::pair<T, T> MsCoord(int val, int hlen);
     template<typename T> std::pair<T, T> HrCoord(int hval, int mval, int hlen);
 

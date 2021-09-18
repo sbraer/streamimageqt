@@ -6,9 +6,11 @@
 class NLTcpSocket final : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(NLTcpSocket)
+
     private:
-        Q_DISABLE_COPY_MOVE(NLTcpSocket)
         QTcpSocket* tcpSocket;
+
     public:
         NLTcpSocket(QTcpSocket* socket);
         ~NLTcpSocket() override;

@@ -1,5 +1,5 @@
 #include "nltcpsocket.h"
-#include <iostream>
+
 NLTcpSocket :: NLTcpSocket (QTcpSocket* socket)
 {
     tcpSocket = socket;
@@ -11,7 +11,7 @@ NLTcpSocket :: NLTcpSocket (QTcpSocket* socket)
 NLTcpSocket :: ~NLTcpSocket ()
 {
 #ifdef QT_DEBUG
-    std::cout << "delete NLTcpSocket\n";
+    qDebug()<< "delete NLTcpSocket";
 #endif
     tcpSocket->deleteLater();
 }

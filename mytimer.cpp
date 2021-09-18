@@ -4,9 +4,6 @@
 MyTimer::MyTimer(QObject *parent) : QThread(parent)
 {}
 
-MyTimer::~MyTimer()
-{}
-
 void MyTimer::run()
 {
     _clientConnected = false;
@@ -27,14 +24,14 @@ void MyTimer::writeInfo()
         auto textToSend = memo_text.arg(blob.size()).toStdString();
         QByteArray textTemp(textToSend.c_str(), static_cast<long>(textToSend.length()));
         textTemp.append(blob);
-        std::cout << "Send " << textTemp.size() << " "
+        qDebug() << "Send " << textTemp.size() << " "
                   << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()
-                  << "ms\n";
+                  << "ms";
         emit sendMessageBinary(textTemp);
     }
     else {
 #ifdef QT_DEBUG
-        std::cout << "No client connected\n";
+        qDebug() << "No client connected";
 #endif
     }
 }

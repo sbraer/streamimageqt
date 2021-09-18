@@ -3,7 +3,6 @@
 #include <QProcess>
 #include <QString>
 #include <QMetaMethod>
-#include <iostream>
 
 #define PORT 7474
 
@@ -58,7 +57,7 @@ void TcpServer::slotReceive(NLTcpSocket* socket)
 void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
 {
 #ifdef QT_DEBUG
-    qDebug()<< "Disconnected " << this->isSignalConnected(QMetaMethod::fromSignal(&TcpServer::sendMessage)) << "\n";
+    qDebug()<< "Disconnected " << this->isSignalConnected(QMetaMethod::fromSignal(&TcpServer::sendMessage));
 #endif
 
     QObject::disconnect(this, &TcpServer::sendMessage, socket, nullptr);
@@ -67,7 +66,7 @@ void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
     QMutexLocker ml(&mMutex);
     if (sockets.contains(socket)) {
 #ifdef QT_DEBUG
-        std::cout << "Removed from QList\n";
+        qDebug()<< "Removed from QList";
 #endif
         sockets.removeOne(socket);
     }
