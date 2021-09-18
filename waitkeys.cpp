@@ -6,7 +6,7 @@ waitKeys::waitKeys(QThread *parent) : QThread(parent)
 
 void waitKeys::run()
 {
-    qDebug() << "Press 'ENTER' to exit...";
+    qInfo() << "Press 'ENTER' to exit...";
     QTextStream stream(stdin);
     stream.readLine();
 }

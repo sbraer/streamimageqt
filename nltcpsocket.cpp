@@ -1,8 +1,7 @@
 #include "nltcpsocket.h"
 
-NLTcpSocket :: NLTcpSocket (QTcpSocket* socket)
+NLTcpSocket :: NLTcpSocket (QTcpSocket* socket) : tcpSocket(socket)
 {
-    tcpSocket = socket;
     connect (tcpSocket, SIGNAL (readyRead()), this, SLOT (slotReadyRead()));
     connect (tcpSocket, SIGNAL (disconnected()), this, SLOT (slotDisconnected()));
     connect (tcpSocket, SIGNAL (connected()), this, SLOT (slotConnected()));
@@ -10,9 +9,7 @@ NLTcpSocket :: NLTcpSocket (QTcpSocket* socket)
 
 NLTcpSocket :: ~NLTcpSocket ()
 {
-#ifdef QT_DEBUG
-    qDebug()<< "delete NLTcpSocket";
-#endif
+    qDebug("delete NLTcpSocket");
     tcpSocket->deleteLater();
 }
 
@@ -44,11 +41,7 @@ void NLTcpSocket::writeMessageBinary(const QByteArray& msg)
 QString NLTcpSocket::getData()
 {
     QByteArray ba = tcpSocket->readAll();
-
-#ifdef QT_DEBUG
-    qDebug() << "From client: " << ba;
-#endif
-
+    qDebug("From client: %s", ba.toStdString().c_str());
     return QString(ba);
 }
 

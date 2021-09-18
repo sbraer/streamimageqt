@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     //windows code goes here
     QApplication a(argc, argv);
 #endif
+
     TcpServer tcpServer;
     waitKeys wk;
     MyTimer mt;

@@ -5,6 +5,8 @@ QT += network
 CONFIG += c++14 console
 CONFIG -= app_bundle
 
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 # remove possible other optimization flags
 QMAKE_CXXFLAGS_RELEASE -= -O
 QMAKE_CXXFLAGS_RELEASE -= -O1
@@ -39,9 +41,6 @@ HEADERS += \
     waitkeys.h
 
 RESOURCES +=
-
-DISTFILES += \
-    images/val_paghera.jpg
 
 OTHER_FILES += \
     $$PWD/images

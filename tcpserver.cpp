@@ -6,32 +6,29 @@
 
 #define PORT 7474
 
-TcpServer::TcpServer(QObject *parent) : QObject(parent)
+TcpServer::TcpServer(QObject *parent) : QObject(parent), _clientConnected(false)
 {
-    _clientConnected = false;
-    server = new QTcpServer();
-    connect(server, &QTcpServer::newConnection, this, &TcpServer::slotNewConnection);
+    server = std::make_unique<QTcpServer>();
+    connect(server.get(), &QTcpServer::newConnection, this, &TcpServer::slotNewConnection);
 
     if(!server->listen(QHostAddress::Any, PORT))
     {
-        qDebug()<< "Server Could Not be Started";
-        return;
+        qCritical()<< "Server Could Not be Started";
     }
     else
     {
-        qDebug()<< "Server Started";
+        qInfo()<< "Server Started";
     }
 }
 
 TcpServer::~TcpServer()
 {
-    qDebug()<< "Server Deleted";
-    delete server;
+    qInfo()<< "Server Deleted";
 }
 
 void TcpServer::slotNewConnection()
 {
-    qDebug()<<"Connected";
+    qInfo()<<"Connected";
     QTcpSocket* socket = server->nextPendingConnection();
     NLTcpSocket* customSocket = new NLTcpSocket(socket);
 
@@ -43,9 +40,12 @@ void TcpServer::slotNewConnection()
     connect(customSocket, &NLTcpSocket::dataReady,this, &TcpServer::slotReceive);
     connect(customSocket, &NLTcpSocket::socketDisconnected,this, &TcpServer::slotDisconnectSocket);
 
-    QMutexLocker ml(&mMutex);
-    _clientConnected = true;
-    emit isClientConnected(_clientConnected);
+    QMutexLocker<QMutex> ml(&mMutex);
+    if (_clientConnected == false) {
+        _clientConnected = true;
+        emit isClientConnected(_clientConnected);
+    }
+
     sockets.append(customSocket);
 }
 
@@ -56,18 +56,13 @@ void TcpServer::slotReceive(NLTcpSocket* socket)
 
 void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
 {
-#ifdef QT_DEBUG
-    qDebug()<< "Disconnected " << this->isSignalConnected(QMetaMethod::fromSignal(&TcpServer::sendMessage));
-#endif
-
+    qInfo()<< "Disconnected";
     QObject::disconnect(this, &TcpServer::sendMessage, socket, nullptr);
     QObject::disconnect(this, &TcpServer::sendMessageBinary, socket, nullptr);
 
-    QMutexLocker ml(&mMutex);
+    QMutexLocker<QMutex> ml(&mMutex);
     if (sockets.contains(socket)) {
-#ifdef QT_DEBUG
-        qDebug()<< "Removed from QList";
-#endif
+        qDebug("Removed from QList");
         sockets.removeOne(socket);
     }
 
