@@ -39,7 +39,7 @@ private:
     const int HRHAND = 220;
     const int CX = CLOCK_DIAMETER / 2;
     const int CY = CLOCK_DIAMETER / 2;
-
+    const QString FONTNAME = "Tahoma";
 };
 
 #endif // IMAGECREATOR_H

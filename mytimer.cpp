@@ -7,9 +7,10 @@ MyTimer::MyTimer(QObject *parent) : QThread(parent), _clientConnected(false)
 void MyTimer::run()
 {
     QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, this, &MyTimer::writeInfo);
+    connect(&timer, &QTimer::timeout, this, &MyTimer::writeInfo);
     timer.start(1000);
     exec();
+    timer.stop();
 }
 
 void MyTimer::writeInfo()

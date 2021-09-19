@@ -13,7 +13,7 @@ QByteArray ImageCreator::createImage()
     p.setPen(pen);
     QFont font(p.font());
     font.setPixelSize(FONT_SIZE);
-    font.setFamily("Tahoma");
+    font.setFamily(FONTNAME);
     p.setFont(font);
     const QRect rectangle(0, 0, MAXX, MAXY);
 

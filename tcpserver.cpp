@@ -35,8 +35,8 @@ void TcpServer::slotNewConnection()
     QString text = "HTTP/1.1 200 OK\r\nContent-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
     socket->write(text.toStdString().c_str());
 
-    QObject::connect(this, &TcpServer::sendMessage, customSocket, &NLTcpSocket::writeMessage);
-    QObject::connect(this, &TcpServer::sendMessageBinary, customSocket, &NLTcpSocket::writeMessageBinary);
+    connect(this, &TcpServer::sendMessage, customSocket, &NLTcpSocket::writeMessage);
+    connect(this, &TcpServer::sendMessageBinary, customSocket, &NLTcpSocket::writeMessageBinary);
     connect(customSocket, &NLTcpSocket::dataReady,this, &TcpServer::slotReceive);
     connect(customSocket, &NLTcpSocket::socketDisconnected,this, &TcpServer::slotDisconnectSocket);
 
@@ -57,8 +57,8 @@ void TcpServer::slotReceive(NLTcpSocket* socket)
 void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
 {
     qInfo()<< "Disconnected";
-    QObject::disconnect(this, &TcpServer::sendMessage, socket, nullptr);
-    QObject::disconnect(this, &TcpServer::sendMessageBinary, socket, nullptr);
+    disconnect(this, &TcpServer::sendMessage, socket, nullptr);
+    disconnect(this, &TcpServer::sendMessageBinary, socket, nullptr);
 
     QMutexLocker<QMutex> ml(&mMutex);
     if (sockets.contains(socket)) {
@@ -66,9 +66,12 @@ void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
         sockets.removeOne(socket);
     }
 
-    delete socket;
-    _clientConnected = this->isSignalConnected(QMetaMethod::fromSignal(&TcpServer::sendMessage));
-    emit isClientConnected(_clientConnected);
+    socket->deleteLater();
+    bool clientConnected = this->isSignalConnected(QMetaMethod::fromSignal(&TcpServer::sendMessage));
+    if (_clientConnected != clientConnected) {
+        _clientConnected = clientConnected;
+        emit isClientConnected(_clientConnected);
+    }
 }
 
 void TcpServer::closeConnection()
