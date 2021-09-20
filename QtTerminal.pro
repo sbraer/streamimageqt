@@ -2,7 +2,7 @@
 QT += widgets
 QT += network
 
-CONFIG += c++14 console
+CONFIG += c++17 console # c++2a for c++20
 CONFIG -= app_bundle
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT

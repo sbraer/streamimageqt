@@ -12,11 +12,12 @@ class MyTimer final : public QThread
     Q_DISABLE_COPY_MOVE(MyTimer)
 
 private:
-    bool _clientConnected;
-    ImageCreator _imgCreator;
+    bool m_bClientConnected;
+    ImageCreator m_pImageCreator;
 
 public:
     explicit MyTimer(QObject *parent = nullptr);
+    ~MyTimer() override;
     void run() override;
 
 public slots:

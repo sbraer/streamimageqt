@@ -15,10 +15,10 @@ class TcpServer final : public QObject
     Q_DISABLE_COPY_MOVE(TcpServer)
 
 private:
-    std::unique_ptr<QTcpServer> server;
-    QList<NLTcpSocket*> sockets;
-    bool _clientConnected;
-    QMutex mMutex;
+    std::unique_ptr<QTcpServer> m_pQTcpServer;
+    QList<NLTcpSocket*> m_pNLTcpSocket;
+    bool m_bClientConnected;
+    QMutex m_pQMutex;
 
 public:
     TcpServer(QObject *parent=nullptr);

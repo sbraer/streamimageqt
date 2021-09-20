@@ -20,6 +20,7 @@ class ImageCreator final : public QObject
 
 public:
     explicit ImageCreator(QObject *parent = nullptr);
+    ~ImageCreator() override;
     QByteArray createImage();
 
 private:

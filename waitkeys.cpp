@@ -1,10 +1,17 @@
 #include "waitkeys.h"
 #include <QDebug>
 
-waitKeys::waitKeys(QThread *parent) : QThread(parent)
-{}
+WaitKeys::WaitKeys(QThread *parent) : QThread(parent)
+{
+    qDebug("Constructor WaitKeys");
+}
 
-void waitKeys::run()
+WaitKeys::~WaitKeys()
+{
+    qDebug("Deconstructor WaitKeys");
+}
+
+void WaitKeys::run()
 {
     qInfo() << "Press 'ENTER' to exit...";
     QTextStream stream(stdin);

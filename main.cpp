@@ -3,6 +3,7 @@
 #include "tcpserver.h"
 #include "waitkeys.h"
 #include "mytimer.h"
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -22,15 +23,15 @@ int main(int argc, char *argv[])
 #endif
 
     TcpServer tcpServer;
-    waitKeys wk;
+    WaitKeys wk;
     MyTimer mt;
 
-    QObject::connect(&wk, &waitKeys::finished, &tcpServer, &TcpServer::closeConnection);
-    QObject::connect(&wk, &waitKeys::finished, &mt, &MyTimer::quit);
+    QObject::connect(&wk, &WaitKeys::finished, &tcpServer, &TcpServer::closeConnection);
+    QObject::connect(&wk, &WaitKeys::finished, &mt, &MyTimer::quit);
     QObject::connect(&mt, &MyTimer::sendMessage, &tcpServer, &TcpServer::sendMessage, Qt::ConnectionType::QueuedConnection);
     QObject::connect(&mt, &MyTimer::sendMessageBinary, &tcpServer, &TcpServer::sendMessageBinary, Qt::ConnectionType::QueuedConnection);
     QObject::connect(&tcpServer, &TcpServer::isClientConnected, &mt, &MyTimer::isClientConnected, Qt::ConnectionType::QueuedConnection);
-    QObject::connect(&wk, &waitKeys::finished, &a, &QApplication::quit);
+    QObject::connect(&wk, &WaitKeys::finished, &a, &QApplication::quit);
 
     // START NOT RUN!!!
     wk.start();

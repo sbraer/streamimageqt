@@ -4,13 +4,14 @@
 #include <QThread>
 #include <QTextStream>
 
-class waitKeys final : public QThread
+class WaitKeys final : public QThread
 {
     Q_OBJECT
-    Q_DISABLE_COPY_MOVE(waitKeys)
+    Q_DISABLE_COPY_MOVE(WaitKeys)
 
 public:
-    explicit waitKeys(QThread *parent = nullptr);
+    explicit WaitKeys(QThread *parent = nullptr);
+    ~WaitKeys() override;
 
 private:
     void run() override;

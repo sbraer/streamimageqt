@@ -1,8 +1,15 @@
 #include "mytimer.h"
 #include <QDateTime>
 
-MyTimer::MyTimer(QObject *parent) : QThread(parent), _clientConnected(false)
-{}
+MyTimer::MyTimer(QObject *parent) : QThread(parent), m_bClientConnected(false)
+{
+    qDebug("Constructor MyTimer");
+}
+
+MyTimer::~MyTimer()
+{
+    qDebug("Destructor MyTimer");
+}
 
 void MyTimer::run()
 {
@@ -15,9 +22,9 @@ void MyTimer::run()
 
 void MyTimer::writeInfo()
 {
-    if (_clientConnected) {
+    if (m_bClientConnected) {
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-        auto blob = _imgCreator.createImage();
+        QByteArray blob = m_pImageCreator.createImage();
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         QString memo_text="\r\n--boundary\r\nContent-Type: image/jpeg\r\n"
                 "Content-Length: %1\r\n\r\n";
@@ -36,5 +43,5 @@ void MyTimer::writeInfo()
 
 void MyTimer::isClientConnected(const bool& clientConnected)
 {
-    _clientConnected = clientConnected;
+    m_bClientConnected = clientConnected;
 }

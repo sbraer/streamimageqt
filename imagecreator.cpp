@@ -1,7 +1,14 @@
 #include "imagecreator.h"
 
 ImageCreator::ImageCreator(QObject *parent) : QObject(parent)
-{}
+{
+    qDebug("Constructor ImageCreator");
+}
+
+ImageCreator::~ImageCreator()
+{
+    qDebug("Destructor ImageCreator");
+}
 
 QByteArray ImageCreator::createImage()
 {

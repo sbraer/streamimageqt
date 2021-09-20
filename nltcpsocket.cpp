@@ -1,47 +1,47 @@
 #include "nltcpsocket.h"
 
-NLTcpSocket :: NLTcpSocket (QTcpSocket* socket) : tcpSocket(socket)
+NLTcpSocket::NLTcpSocket (QTcpSocket* socket) : m_pQTcpSocket(socket)
 {
-    connect (tcpSocket, SIGNAL (readyRead()), this, SLOT (slotReadyRead()));
-    connect (tcpSocket, SIGNAL (disconnected()), this, SLOT (slotDisconnected()));
-    connect (tcpSocket, SIGNAL (connected()), this, SLOT (slotConnected()));
+    qDebug("Constructor NLTcpSocket");
+    connect(m_pQTcpSocket, &QTcpSocket::readyRead, this, &NLTcpSocket::slotReadyRead);
+    connect(m_pQTcpSocket, &QTcpSocket::disconnected, this, &NLTcpSocket::slotDisconnected);
+    connect(m_pQTcpSocket, &QTcpSocket::connected, this, &NLTcpSocket::slotConnected);
 }
 
-NLTcpSocket :: ~NLTcpSocket ()
+NLTcpSocket::~NLTcpSocket ()
 {
-    qDebug("delete NLTcpSocket");
-    tcpSocket->deleteLater();
+    qDebug("Deconstructor NLTcpSocket");
+    m_pQTcpSocket->deleteLater();
 }
 
-void NLTcpSocket :: slotReadyRead ()
+void NLTcpSocket::slotReadyRead ()
 {
-    emit dataReady (this);
+    emit dataReady(this);
 }
 
-void NLTcpSocket :: slotConnected()
+void NLTcpSocket::slotConnected()
 {
     emit socketConnected(this);
 }
 
-void NLTcpSocket :: slotDisconnected()
+void NLTcpSocket::slotDisconnected()
 {
     emit socketDisconnected(this);
 }
 
 void NLTcpSocket::writeMessage(const QString &msg)
 {
-    tcpSocket->write(msg.toStdString().append("\r\n").c_str());
+    m_pQTcpSocket->write(msg.toStdString().append("\r\n").c_str());
 }
 
 void NLTcpSocket::writeMessageBinary(const QByteArray& msg)
 {
-    tcpSocket->write(msg);
+    m_pQTcpSocket->write(msg);
 }
 
 QString NLTcpSocket::getData()
 {
-    QByteArray ba = tcpSocket->readAll();
+    QByteArray ba = m_pQTcpSocket->readAll();
     qDebug("From client: %s", ba.toStdString().c_str());
     return QString(ba);
 }
-
