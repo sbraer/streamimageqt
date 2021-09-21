@@ -29,16 +29,16 @@ QByteArray ImageCreator::createImage()
 
     auto dt = QDateTime::currentDateTimeUtc();
     //draw seconds hand
-    std::pair<int, int> cord = MsCoord<int>(dt.time().second(), SECHAND);
-    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + cord.first, CLOCK_Y + cord.second);
+    auto[xs, ys] = MsCoord<int>(dt.time().second(), SECHAND);
+    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + xs, CLOCK_Y + ys);
 
     //draw minutes hand
-    cord = MsCoord<int>(dt.time().minute(), MINHAND);
-    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + cord.first, CLOCK_Y + cord.second);
+    auto[xm, ym] = MsCoord<int>(dt.time().minute(), MINHAND);
+    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + xm, CLOCK_Y + ym);
 
     //draw hours hand
-    cord = HrCoord<int>(dt.time().hour() % 12, dt.time().minute(), HRHAND);
-    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + cord.first, CLOCK_Y + cord.second);
+    auto[xh, yh] = HrCoord<int>(dt.time().hour() % 12, dt.time().minute(), HRHAND);
+    p.drawLine(CLOCK_CENTER_X, CLOCK_CENTER_Y, CLOCK_X + xh, CLOCK_Y + yh);
 
     // Draw text
     p.drawText(rectangle, Qt::AlignBottom | Qt::AlignHCenter, dt.toString("dd/MM/yyyy hh:mm:ss UTC"));

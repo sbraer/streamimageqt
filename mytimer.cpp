@@ -13,11 +13,8 @@ MyTimer::~MyTimer()
 
 void MyTimer::run()
 {
-    QTimer timer;
-    connect(&timer, &QTimer::timeout, this, &MyTimer::writeInfo);
-    timer.start(1000);
+    QTimer::singleShot(0, this, &MyTimer::writeInfo);
     exec();
-    timer.stop();
 }
 
 void MyTimer::writeInfo()
@@ -28,7 +25,7 @@ void MyTimer::writeInfo()
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         QString memo_text="\r\n--boundary\r\nContent-Type: image/jpeg\r\n"
                 "Content-Length: %1\r\n\r\n";
-        auto textToSend = memo_text.arg(blob.size()).toStdString();
+        std::string textToSend = memo_text.arg(blob.size()).toStdString();
         QByteArray textTemp(textToSend.c_str(), static_cast<long>(textToSend.length()));
         textTemp.append(blob);
         qInfo() << "Send " << textTemp.size() << " "
@@ -36,9 +33,13 @@ void MyTimer::writeInfo()
                   << "ms";
         emit sendMessageBinary(textTemp);
     }
-    else {
-        qDebug("No client connected");
-    }
+
+    QDateTime dt = QDateTime::currentDateTimeUtc();
+    QTime qt1 = dt.time();
+    QTime qt2 = QTime(qt1.hour(), qt1.minute(), qt1.second(), 0).addSecs(1);
+    int delay = qt1.msecsTo(qt2);
+    qDebug("%dms: %s", delay, dt.toString("dd/MM/yyyy hh:mm:ss zzz UTC").toStdString().c_str());
+    QTimer::singleShot(delay, this, &MyTimer::writeInfo);
 }
 
 void MyTimer::isClientConnected(const bool& clientConnected)

@@ -30,7 +30,7 @@ TcpServer::~TcpServer()
 
 void TcpServer::slotNewConnection()
 {
-    qInfo()<<"Connected";
+    qInfo()<< "Connected";
     QTcpSocket* socket = m_pQTcpServer->nextPendingConnection();
     NLTcpSocket* customSocket = new NLTcpSocket(socket);
 
