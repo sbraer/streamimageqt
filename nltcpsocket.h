@@ -15,7 +15,6 @@ class NLTcpSocket final : public QObject
         NLTcpSocket(QTcpSocket* socket);
         ~NLTcpSocket() override;
         QString getData();
-        void write(QString data);
 
     private slots:
         void slotReadyRead ();

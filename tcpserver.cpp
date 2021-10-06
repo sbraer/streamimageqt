@@ -32,7 +32,7 @@ void TcpServer::slotNewConnection()
 {
     qInfo()<< "Connected";
     QTcpSocket* socket = m_pQTcpServer->nextPendingConnection();
-    NLTcpSocket* customSocket = new NLTcpSocket(socket);
+    auto customSocket = new NLTcpSocket{socket};
 
     QString text = "HTTP/1.1 200 OK\r\nContent-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
     socket->write(text.toStdString().c_str());
@@ -42,7 +42,7 @@ void TcpServer::slotNewConnection()
     connect(customSocket, &NLTcpSocket::dataReady,this, &TcpServer::slotReceive);
     connect(customSocket, &NLTcpSocket::socketDisconnected,this, &TcpServer::slotDisconnectSocket);
 
-    QMutexLocker<QMutex> ml(&m_pQMutex);
+    QMutexLocker<QMutex> ml{&m_pQMutex};
     if (m_bClientConnected == false) {
         m_bClientConnected = true;
         emit isClientConnected(m_bClientConnected);
@@ -62,7 +62,7 @@ void TcpServer::slotDisconnectSocket(NLTcpSocket* socket)
     disconnect(this, &TcpServer::sendMessage, socket, nullptr);
     disconnect(this, &TcpServer::sendMessageBinary, socket, nullptr);
 
-    QMutexLocker<QMutex> ml(&m_pQMutex);
+    QMutexLocker<QMutex> ml{&m_pQMutex};
     if (m_pNLTcpSocket.contains(socket)) {
         qDebug("Removed from QList");
         m_pNLTcpSocket.removeOne(socket);

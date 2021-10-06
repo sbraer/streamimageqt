@@ -12,17 +12,17 @@ ImageCreator::~ImageCreator()
 
 QByteArray ImageCreator::createImage()
 {
-    QImage image(MAXX, MAXY, QImage::Format_RGB32);
+    QImage image{MAXX, MAXY, QImage::Format_RGB32};
     image.fill(QColor::fromRgb(0x00, 0xbb, 0x55));
     QPainter p;
     p.begin(&image);
-    QPen pen(Qt::white, 3);
+    QPen pen{Qt::white, 3};
     p.setPen(pen);
-    QFont font(p.font());
+    QFont font{p.font()};
     font.setPixelSize(FONT_SIZE);
     font.setFamily(FONTNAME);
     p.setFont(font);
-    const QRect rectangle(0, 0, MAXX, MAXY);
+    const QRect rectangle{0, 0, MAXX, MAXY};
 
     // Draw clock
     p.drawEllipse(CLOCK_X, CLOCK_Y, CLOCK_DIAMETER, CLOCK_DIAMETER);
@@ -45,14 +45,14 @@ QByteArray ImageCreator::createImage()
     p.end();
 
     QByteArray ba;
-    QBuffer buffer(&ba);
+    QBuffer buffer{&ba};
     buffer.open(QIODevice::WriteOnly);
     image.save(&buffer, "JPEG", 80);
     return ba;
 }
 
 template<typename T>
-std::pair<T, T> ImageCreator::MsCoord(int val, int hlen)
+std::pair<T, T> ImageCreator::MsCoord(const int& val, const int& hlen)
 {
     T x, y;
     float valx = float(val) * 6; // note: each minute and seconds make a 6 degree
@@ -71,7 +71,7 @@ std::pair<T, T> ImageCreator::MsCoord(int val, int hlen)
 }
 
 template<typename T>
-std::pair<T, T> ImageCreator::HrCoord(int hval, int mval, int hlen)
+std::pair<T, T> ImageCreator::HrCoord(const int& hval, const int& mval, const int& hlen)
 {
     T x, y;
     //each hour makes 60 degree with min making 0.5 degree

@@ -16,10 +16,10 @@ int main(int argc, char *argv[])
     argv2[1] = const_cast<char*>("-platform");
     argv2[2] = const_cast<char*>("offscreen");
     argc = 3;
-    QApplication a(argc, argv2);
+    QApplication a{argc, argv2};
 #else
     //windows code goes here
-    QApplication a(argc, argv);
+    QApplication a{argc, argv};
 #endif
 
     TcpServer tcpServer;

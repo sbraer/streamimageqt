@@ -14,6 +14,6 @@ WaitKeys::~WaitKeys()
 void WaitKeys::run()
 {
     qInfo() << "Press 'ENTER' to exit...";
-    QTextStream stream(stdin);
+    QTextStream stream{stdin};
     stream.readLine();
 }
