@@ -1,6 +1,6 @@
 #include "nltcpsocket.h"
 
-NLTcpSocket::NLTcpSocket (QTcpSocket* socket) : m_pQTcpSocket(socket)
+NLTcpSocket::NLTcpSocket (QTcpSocket* socket) : m_pQTcpSocket{socket}
 {
     qDebug("Constructor NLTcpSocket");
     connect(m_pQTcpSocket, &QTcpSocket::readyRead, this, &NLTcpSocket::slotReadyRead);

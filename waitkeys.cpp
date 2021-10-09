@@ -1,7 +1,7 @@
 #include "waitkeys.h"
 #include <QDebug>
 
-WaitKeys::WaitKeys(QThread *parent) : QThread(parent)
+WaitKeys::WaitKeys(QThread *parent) : QThread{parent}
 {
     qDebug("Constructor WaitKeys");
 }

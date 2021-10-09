@@ -6,7 +6,7 @@
 
 #define PORT 7474
 
-TcpServer::TcpServer(QObject *parent) : QObject(parent), m_bClientConnected(false)
+TcpServer::TcpServer(QObject *parent) : QObject{parent}, m_bClientConnected{false}
 {
     qDebug("Constructor TcpServer");
     m_pQTcpServer = std::make_unique<QTcpServer>();

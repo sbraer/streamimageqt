@@ -1,7 +1,7 @@
 #include "mytimer.h"
 #include <QDateTime>
 
-MyTimer::MyTimer(QObject *parent) : QThread(parent), m_bClientConnected(false)
+MyTimer::MyTimer(QObject *parent) : QThread{parent}, m_bClientConnected{false}
 {
     qDebug("Constructor MyTimer");
 }

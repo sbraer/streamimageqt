@@ -1,6 +1,6 @@
 #include "imagecreator.h"
 
-ImageCreator::ImageCreator(QObject *parent) : QObject(parent)
+ImageCreator::ImageCreator(QObject *parent) : QObject{parent}
 {
     qDebug("Constructor ImageCreator");
 }
