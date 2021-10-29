@@ -10,6 +10,7 @@
 #include <QBuffer>
 #include <math.h>
 #include <memory>
+#include <type_traits>
 
 class ImageCreator final : public QObject
 {
@@ -24,8 +25,10 @@ public:
     QByteArray createImage();
 
 private:
-    template<typename T> std::pair<T, T> MsCoord(const int& val, const int& hlen);
-    template<typename T> std::pair<T, T> HrCoord(const int& hval, const int& mval, const int& hlen);
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    std::pair<T, T> MsCoord(const int& val, const int& hlen);
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    std::pair<T, T> HrCoord(const int& hval, const int& mval, const int& hlen);
 
     const int FONT_SIZE = 108;
     const int MAXX = 1920;
