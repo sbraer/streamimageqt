@@ -51,7 +51,7 @@ QByteArray ImageCreator::createImage()
     return ba;
 }
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type*>
 std::pair<T, T> ImageCreator::MsCoord(const int& val, const int& hlen)
 {
     T x, y;
@@ -70,7 +70,7 @@ std::pair<T, T> ImageCreator::MsCoord(const int& val, const int& hlen)
     return std::make_pair(x, y);
 }
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type*>
 std::pair<T, T> ImageCreator::HrCoord(const int& hval, const int& mval, const int& hlen)
 {
     T x, y;
